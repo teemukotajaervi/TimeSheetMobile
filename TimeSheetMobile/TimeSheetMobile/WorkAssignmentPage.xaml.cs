@@ -18,9 +18,19 @@ namespace TimeSheetMobile
         {
             InitializeComponent();
             assignmentList.ItemsSource = new string[] { "" };
-            latitudeLabel.Text = GpsLocationModel.Latitude.ToString("0.000");
-            longitudeLabel.Text = GpsLocationModel.Longitude.ToString("0.000");
-        }     
+            Task.Factory.StartNew(async () =>
+            {
+            while (true)
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                { 
+                latitudeLabel.Text = GpsLocationModel.Latitude.ToString("0.000");
+                longitudeLabel.Text = GpsLocationModel.Longitude.ToString("0.000");
+            });
+            await Task.Delay(5000);
+        }
+    });
+    }
         public async void LoadWorkAssignments(object sender, EventArgs e)
         {
             try
